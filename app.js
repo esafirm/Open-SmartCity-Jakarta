@@ -38,7 +38,7 @@ app.all('*', function(req, res, next){
 
 // api baseURI is at /api/
 
-// API Routes 
+// API Routes
 // ROUTES, logic is in routes/index.js
 
 var routes = require('./routes/index.js');
@@ -48,6 +48,13 @@ app.get('/', routes.index); // calls index function in /routes/index.js
 
 // API routes
 app.get('/api/haltebus', routes.haltebus);
+app.get('/api/kepolisian', routes.kepolisian);
+app.get('/api/rumahsakit', routes.rumahSakit);
+app.get('/api/sekolah', routes.sekolah);
+app.get('/api/lokasitransportasi', routes.lokasiTransportasi);
+app.get('/api/tempatibadah', routes.tempatIbadah);
+
+// Utility
 app.get('/api/clearData', routes.clearData);
 
 // if route not found, respond with 404
@@ -56,7 +63,7 @@ app.use(function(req, res, next){
 	var jsonData = {
 		status: 'ERROR',
 		message: 'Sorry, we cannot find the requested URI'
-	}
+	};
 	// set status as 404 and respond with data
   res.status(404).send(jsonData);
 
