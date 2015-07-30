@@ -54,15 +54,17 @@ app.get('/api/utils/clearData', routes.clearData);
 app.get('/api/utils/grabAllData', routes.grabAllData);
 
 // Informasi Pendukung
-app.get('/api/haltebus', routes.haltebus);
-app.get('/api/kepolisian', routes.kepolisian);
-app.get('/api/rumahsakit', routes.rumahSakit);
-app.get('/api/sekolah', routes.sekolah);
-app.get('/api/lokasitransportasi', routes.lokasiTransportasi);
-app.get('/api/tempatibadah', routes.tempatIbadah);
+app.get('/api/haltebus', routes.get);
+app.get('/api/kepolisian', routes.get);
+app.get('/api/rumahsakit', routes.get);
+app.get('/api/sekolah', routes.get);
+app.get('/api/lokasitransportasi', routes.get);
+app.get('/api/tempatibadah', routes.get);
 
 // Pariwisata & Kebudayaan
-// app.get('/api/kebudayaan/lokasiKuliner', routes.lokasiKuliner);
+app.get('/api/pariwisata/lokasikuliner', routes.get);
+app.get('/api/pariwisata/lokasiWisata', routes.get);
+app.get('/api/pariwisata/lokasiPatung', routes.get);
 
 /* --------------------------------------- */
 

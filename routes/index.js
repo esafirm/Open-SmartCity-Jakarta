@@ -14,7 +14,7 @@ var lokasiBelanja = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0Qm
 var lokasiPatung = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0UGF0dW5nfjIwMTUwNzMwU200UlRDMXRZ';
 var lokasiMuseum = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0TXVzZXVtfjIwMTUwNzMwU200UlRDMXRZ';
 
-var allURL = [
+var URLs = [
   {"name":"haltebus", "url":haltebus},
   {"name":"kepolisian", "url":kepolisian},
   {"name":"rumahSakit", "url":rumahSakit},
@@ -64,134 +64,13 @@ exports.clearData = function(req, res){
   res.json(data);
 };
 
-exports.haltebus = function(req,res){
-
-  var lastRequestedDate = storage.getItem('halteDate');
-  var items = storage.getItem('halte');
-
-  if(items && isToday(lastRequestedDate)){
-    console.log('return from persistent!');
-    res.end(items);
-  }else{
-    doRequest(haltebus, function(error,response, body){
-      if (!error && response.statusCode == 200) {
-        onRequestSuccess('halte',body);
-        res.end(body);
-      }else if(items){
-        res.end(items);
-      }
-    });
-  }
-};
-
-exports.kepolisian = function(req,res){
-
-  var lastRequestedDate = storage.getItem('kepolisianDate');
-  var items = storage.getItem('kepolisian');
-
-  if(items && isToday(lastRequestedDate)){
-    console.log('return from persistent!');
-    res.end(items);
-  }else{
-    doRequest(kepolisian, function(error,response, body){
-      if (!error && response.statusCode == 200) {
-        onRequestSuccess('kepolisian', body);
-        res.end(body);
-      }else if(items){
-        res.end(items);
-      }
-    });
-  }
-};
-
-exports.rumahSakit = function(req,res){
-
-  var lastRequestedDate = storage.getItem('rumahSakitDate');
-  var items = storage.getItem('rumahSakit');
-
-  if(items && isToday(lastRequestedDate)){
-    console.log('return from persistent!');
-    res.end(items);
-  }else{
-    doRequest(rumahSakit, function(error,response, body){
-      if (!error && response.statusCode == 200) {
-        onRequestSuccess('rumahSakit', body);
-        res.end(body);
-      }else if(items){
-        res.end(items);
-      }
-    });
-  }
-};
-
-exports.sekolah = function(req,res){
-
-  var lastRequestedDate = storage.getItem('sekolahDate');
-  var items = storage.getItem('sekolah');
-
-  if(items && isToday(lastRequestedDate)){
-    console.log('return from persistent!');
-    res.end(items);
-  }else{
-    doRequest(sekolah, function(error,response, body){
-      if (!error && response.statusCode == 200) {
-        onRequestSuccess('sekolah', body);
-        res.end(body);
-      }else if(items){
-        res.end(items);
-      }
-    });
-  }
-};
-
-exports.tempatIbadah = function(req,res){
-
-  var lastRequestedDate = storage.getItem('tempatIbadahDate');
-  var items = storage.getItem('tempatIbadah');
-
-  if(items && isToday(lastRequestedDate)){
-    console.log('return from persistent!');
-    res.end(items);
-  }else{
-    doRequest(tempatIbadah, function(error,response, body){
-      if (!error && response.statusCode == 200) {
-        onRequestSuccess('tempatIbadah', body);
-        res.end(body);
-      }else if(items){
-        res.end(items);
-      }
-    });
-  }
-};
-
-exports.lokasiTransportasi = function(req,res){
-
-  var lastRequestedDate = storage.getItem('lokasiTransportasiDate');
-  var items = storage.getItem('lokasiTransportasi');
-
-  if(items && isToday(lastRequestedDate)){
-    console.log('return from persistent!');
-    res.end(items);
-  }else{
-    doRequest(lokasiTransportasi, function(error,response, body){
-      if (!error && response.statusCode == 200) {
-        onRequestSuccess('lokasiTransportasi', body);
-        res.end(body);
-      }else if(items){
-        res.end(items);
-      }
-    });
-  }
-};
-
-/* jshint loopfunc:true */
 exports.grabAllData = function(req, res){
   res.writeHead(200, {'Content-Type': 'text/html'});
   res.write('fethcing...');
 
   var counter = 0;
 
-  allURL.forEach(function(item){
+  URLs.forEach(function(item){
 
     var name = item.name;
     var url = item.url;
@@ -207,15 +86,63 @@ exports.grabAllData = function(req, res){
       }
 
       counter++;
-      if(allURL.length === counter)
+      if(URLs.length === counter)
         res.end('<br>Get all data completede ...');
     });
   });
 };
 
+exports.get = function(req, res){
+  doAPIRequest(getKeyFromPath(req.route.path),req,res);
+};
+
+function getKeyFromPath(path){
+  return path.substring(path.lastIndexOf('/') + 1);
+}
+
+function getURLfromKey(key){
+  for (var i = 0; i < URLs.length; i++)
+    if(URLs[i].name.toLowerCase() === key.toLowerCase())
+      return URLs[i].url;
+}
+
+function doAPIRequest(key,req,res){
+  var lastRequestedDate = storage.getItem(key + 'Date');
+  var items = storage.getItem(key);
+
+  // console.log(req);
+
+  var limit = req.query.limit || 9999;
+  var offset = req.query.offset || 0;
+
+  console.log('requesting ' + key + ' with offset ' + offset + ' and limit ' + limit);
+
+  if(items && isToday(lastRequestedDate)){
+    console.log('return from persistent!');
+
+      if(limit !== 9999 || offset !== 0){
+        var json = JSON.parse(items);
+        res.json(json.slice(offset, parseInt(offset) + parseInt(limit)));
+      }else
+        res.end(items);
+
+  }else{
+    doRequest(getURLfromKey(key), function(error,response, body){
+      if (!error && response.statusCode == 200) {
+        onRequestSuccess(key, body);
+        res.end(body);
+      }else if(items){
+        res.end(items);
+      }
+    });
+  }
+}
+
 function onRequestSuccess(key ,body){
-  storage.setItem(key, body);
-  storage.setItem(key + 'Date', Date());
+  if(isJsonString(body) && body.length > 20){
+    storage.setItem(key.toLowerCase(), body);
+    storage.setItem(key.toLowerCase() + 'Date', Date());
+  }
 }
 
 function doRequest(url, callback){
@@ -229,4 +156,13 @@ function isToday(lastRequestedDate){
   console.log("Date now: " + Date());
   console.log("Date last requested: " + lastRequestedDate);
   return lastRequestedDate ? moment(lastRequestedDate, 'days').isSame(moment(Date(),'days')) : false;
+}
+
+function isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
