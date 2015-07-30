@@ -7,6 +7,29 @@ var sekolah = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0U2Vrb2xh
 var tempatIbadah = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0SWJhZGFofjIwMTUwNzEzU200UlRDMXRZ';
 var lokasiTransportasi = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0VHJhbnNwb3J0YXNpfjIwMTUwNzEzU200UlRDMXRZ';
 
+/* Pariwisata & Kebudayaan */
+var lokasiKuliner = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0S3VsaW5lcn4yMDE1MDczMFNtNFJUQzF0WQ==';
+var lokasiWisata = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0V2lzYXRhfjIwMTUwNzMwU200UlRDMXRZ';
+var lokasiBelanja = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0QmVsYW5qYX4yMDE1MDczMFNtNFJUQzF0WQ==';
+var lokasiPatung = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0UGF0dW5nfjIwMTUwNzMwU200UlRDMXRZ';
+var lokasiMuseum = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0TXVzZXVtfjIwMTUwNzMwU200UlRDMXRZ';
+
+var allURL = [
+  {"name":"haltebus", "url":haltebus},
+  {"name":"kepolisian", "url":kepolisian},
+  {"name":"rumahSakit", "url":rumahSakit},
+  {"name":"sekolah", "url":sekolah},
+  {"name":"tempatIbadah", "url":tempatIbadah},
+  {"name":"lokasiTransportasi", "url":lokasiTransportasi},
+
+  /* Pariwisata */
+  {"name":"lokasiKuliner", "url":lokasiKuliner},
+  {"name":"lokasiWisata", "url":lokasiWisata},
+  {"name":"lokasiBelanja", "url":lokasiBelanja},
+  {"name":"lokasiPatung", "url":lokasiPatung},
+  {"name":"lokasiMuseum", "url":lokasiMuseum}
+];
+
 /* --------------- */
 var request = require('request');
 var storage = require('node-persist');
@@ -161,13 +184,42 @@ exports.lokasiTransportasi = function(req,res){
   }
 };
 
+/* jshint loopfunc:true */
+exports.grabAllData = function(req, res){
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write('fethcing...');
+
+  var counter = 0;
+
+  allURL.forEach(function(item){
+
+    var name = item.name;
+    var url = item.url;
+
+    doRequest(url, function(error,response, body){
+      if(!error && response.statusCode == 200){
+        console.log('Request success for :' + name);
+        res.write('<br>Request <b style="color:green">success</b> for : ' + name);
+        onRequestSuccess(name, body);
+      }else{
+        console.log('Response error',response);
+        res.write('<br>Request <b style="color:red">error</b> for : ' + name);
+      }
+
+      counter++;
+      if(allURL.length === counter)
+        res.end('<br>Get all data completede ...');
+    });
+  });
+};
+
 function onRequestSuccess(key ,body){
   storage.setItem(key, body);
   storage.setItem(key + 'Date', Date());
 }
 
 function doRequest(url, callback){
-  console.log('Making requst:' + url);
+  console.log('Making request:' + url);
   request(url, function(error, response, body){
     callback(error,response, body);
   });

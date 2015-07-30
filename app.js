@@ -46,7 +46,14 @@ var routes = require('./routes/index.js');
 // home route is not really an API route, but does respond back
 app.get('/', routes.index); // calls index function in /routes/index.js
 
-// API routes
+/* ------------------------------------- */
+/* ---------- API Routes --------------- */
+
+// Utility
+app.get('/api/utils/clearData', routes.clearData);
+app.get('/api/utils/grabAllData', routes.grabAllData);
+
+// Informasi Pendukung
 app.get('/api/haltebus', routes.haltebus);
 app.get('/api/kepolisian', routes.kepolisian);
 app.get('/api/rumahsakit', routes.rumahSakit);
@@ -54,8 +61,11 @@ app.get('/api/sekolah', routes.sekolah);
 app.get('/api/lokasitransportasi', routes.lokasiTransportasi);
 app.get('/api/tempatibadah', routes.tempatIbadah);
 
-// Utility
-app.get('/api/clearData', routes.clearData);
+// Pariwisata & Kebudayaan
+// app.get('/api/kebudayaan/lokasiKuliner', routes.lokasiKuliner);
+
+/* --------------------------------------- */
+
 
 // if route not found, respond with 404
 app.use(function(req, res, next){
