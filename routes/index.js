@@ -87,7 +87,7 @@ exports.grabAllData = function(req, res){
 
       counter++;
       if(URLs.length === counter)
-        res.end('<br>Get all data completede ...');
+        res.end('<br>Get all data completed ...');
     });
   });
 };
