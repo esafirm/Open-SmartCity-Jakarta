@@ -65,6 +65,8 @@ app.get('/api/tempatibadah', routes.get);
 app.get('/api/pariwisata/lokasikuliner', routes.get);
 app.get('/api/pariwisata/lokasiWisata', routes.get);
 app.get('/api/pariwisata/lokasiPatung', routes.get);
+app.get('/api/pariwisata/lokasiBelanja', routes.get);
+app.get('/api/pariwisata/lokasiMuseum', routes.get);
 
 /* --------------------------------------- */
 

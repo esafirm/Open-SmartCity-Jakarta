@@ -10,12 +10,29 @@ Run **npm install** to get all required libraries.
 
 ### Base URL
 
-	api baseURI is at /api/
+	API base URI is at /api/
 
-	ex:
-	<base_url>/api/haltebus
+#### example:
+
+	https://openjakarta.herokuapp.com/api/haltebus
+
+### Paging	
+
+simply put `offset` and `limit` parameter on your request
+
+#### example:
+
+	https://openjakarta.herokuapp.com/api/haltebus?limit=5&offset=5
+
+### Demo
+
+you can try the demo of this api https://openjakarta.herokuapp.com
+
+---
 
 ### Endpoint
+
+#### Informasi Pendukung:
 
 - haltebus
 - kepolisian
@@ -23,3 +40,13 @@ Run **npm install** to get all required libraries.
 - sekolah
 - lokasitransportasi
 - tempatibadah
+
+#### Pariwisata & Kebudayaan
+
+- pariwisata/lokasikuliner
+- pariwisata/lokasiwisata
+- pariwisata/lokasipatung
+- pariwisata/lokasibelanja
+- pariwisata/lokasimuseum
+
+---
