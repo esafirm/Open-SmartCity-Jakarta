@@ -1,5 +1,8 @@
 ## API for data like smartcity.jakarta.go.id
 
+[![Build Status](https://travis-ci.org/esafirm/Open-SmartCity-Jakarta.svg?branch=master)](https://travis-ci.org/esafirm/Open-SmartCity-Jakarta)
+
+
 ### Setup
 
 Configure your Heroku https://dashboard.heroku.com
