@@ -16,7 +16,7 @@ Run **npm install** to get all required libraries.
 
 	https://openjakarta.herokuapp.com/api/haltebus
 
-### Paging	
+### Paging
 
 simply put `offset` and `limit` parameter on your request
 
