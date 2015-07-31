@@ -11,6 +11,7 @@ Run **npm install** to get all required libraries.
 ### Base URL
 
 	API base URI is at /api/
+<<<<<<< HEAD
 
 #### example:
 
@@ -27,6 +28,14 @@ simply put `offset` and `limit` parameter on your request
 ### Demo
 
 you can try the demo of this api https://openjakarta.herokuapp.com
+
+---
+=======
+
+####example:
+
+	<base_url>/api/haltebus
+>>>>>>> 3ea380c34f84731a08782acc54e40fdb04dc0c41
 
 ---
 
@@ -50,3 +59,10 @@ you can try the demo of this api https://openjakarta.herokuapp.com
 - pariwisata/lokasimuseum
 
 ---
+<<<<<<< HEAD
+=======
+
+### Demo
+
+you can try the demo of this api https://openjakarta.herokuapp.com
+>>>>>>> 3ea380c34f84731a08782acc54e40fdb04dc0c41
