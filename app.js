@@ -68,6 +68,12 @@ app.get('/api/pariwisata/lokasiPatung', routes.get);
 app.get('/api/pariwisata/lokasiBelanja', routes.get);
 app.get('/api/pariwisata/lokasiMuseum', routes.get);
 
+// Kebersihan
+app.get('/api/kebersihan/lokasiTPS', routes.get);
+
+// KUMKMP
+app.get('/api/kumkmp/lokasiPasar', routes.get);
+
 /* --------------------------------------- */
 
 

@@ -14,6 +14,15 @@ var lokasiBelanja = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0Qm
 var lokasiPatung = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0UGF0dW5nfjIwMTUwNzMwU200UlRDMXRZ';
 var lokasiMuseum = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0TXVzZXVtfjIwMTUwNzMwU200UlRDMXRZ';
 
+/* Dinas Kebersihan */
+var lokasiTPS = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0VFBTfjIwMTUwODAyU200UlRDMXRZ';
+
+/* KUMKMP */
+var lokasiPasar = 'http://smartcity.jakarta.go.id/ajax/apps_command.php?Z2V0S1VNS01QX1Bhc2FyfjIwMTUwODAyU200UlRDMXRZ';
+
+/* Busway Tracking */
+var buswayTracking = 'http://202.51.116.138:8088/jsc.asp?rq=jakartasmartcity&id=476A837BE937ED73';
+
 var URLs = [
   {"name":"haltebus", "url":haltebus},
   {"name":"kepolisian", "url":kepolisian},
@@ -27,7 +36,13 @@ var URLs = [
   {"name":"lokasiWisata", "url":lokasiWisata},
   {"name":"lokasiBelanja", "url":lokasiBelanja},
   {"name":"lokasiPatung", "url":lokasiPatung},
-  {"name":"lokasiMuseum", "url":lokasiMuseum}
+  {"name":"lokasiMuseum", "url":lokasiMuseum},
+
+  /* Dinas Kebersihan */
+  {"name":"lokasiTPS", "url":lokasiTPS},
+
+  /* KUMKMP */
+  {"name":"lokasiPasar", "url":lokasiPasar}
 ];
 
 /* --------------- */
