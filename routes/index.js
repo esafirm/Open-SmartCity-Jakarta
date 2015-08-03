@@ -127,16 +127,33 @@ function doAPIRequest(key,req,res){
 
   // console.log(req);
 
-  var limit = req.query.limit || 9999;
-  var offset = req.query.offset || 0;
+  var query = req.query;
+  var limit = query.limit || 9999;
+  var offset = query.offset || 0;
+  var hasQuery = query.q;
 
   console.log('requesting ' + key + ' with offset ' + offset + ' and limit ' + limit);
 
   if(items && isToday(lastRequestedDate)){
     console.log('return from persistent!');
 
-      if(limit !== 9999 || offset !== 0){
+      if(limit !== 9999 || offset !== 0 || hasQuery){
         var json = JSON.parse(items);
+
+        if(hasQuery){
+          var q = [];
+          Object.keys(query.q).forEach(function(item){
+            q.push({name:item, value: hasQuery[item]});
+          });
+
+          if(q.length > 0){
+            console.log('query', q);
+            json = json.filter(function(value){
+              return evaluateFilter(value, q);
+            });
+          }
+        }
+
         res.json(json.slice(offset, parseInt(offset) + parseInt(limit)));
       }else
         res.end(items);
@@ -151,6 +168,19 @@ function doAPIRequest(key,req,res){
       }
     });
   }
+}
+
+function evaluateFilter(value, q){
+  var isTrue = true;
+  try{
+    q.forEach(function(param){
+      if(value[param.name] !== param.value){
+        isTrue = false;
+        throw BreakException;
+      }
+    });
+  }catch(e){}
+  return isTrue;
 }
 
 function onRequestSuccess(key ,body){
